@@ -118,6 +118,9 @@ public class Task {
         this.updated = updated;
     }
 
+    public Task() {
+    }
+
     public Task(UUID id, String title, String description, LocalDateTime dueDate, TaskStatus status,
             TaskPriority priority, TaskList taskList, LocalDateTime created, LocalDateTime updated) {
         this.id = id;
