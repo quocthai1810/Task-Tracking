@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class TaskListController {
         this.taskListMapper = taskListMapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public List<TaskListDto> listTaskLists() {
         return taskListService.listTaskLists().stream().map(taskListMapper::toDto).toList();
@@ -55,8 +57,7 @@ public class TaskListController {
     }
 
     @DeleteMapping(path = "/{task_list_id}")
-    public String deleteTaskList(@PathVariable("task_list_id") UUID taskListId) {
+    public void deleteTaskList(@PathVariable("task_list_id") UUID taskListId) {
         taskListService.deleteTaskList(taskListId);
-        return "ok";
     }
 }
