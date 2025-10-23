@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.example.task_tracker.domain.dto.TaskListDto;
 import com.example.task_tracker.domain.entities.TaskList;
+import com.example.task_tracker.jwt.JwtService;
 import com.example.task_tracker.mappers.TaskListMapper;
 import com.example.task_tracker.services.TaskListService;
 
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -24,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(TaskListController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class TaskListControllerIT {
 
     @Autowired
@@ -34,6 +37,9 @@ public class TaskListControllerIT {
 
     @MockitoBean
     private TaskListMapper taskListMapper;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @Autowired
     private ObjectMapper objectMapper;
