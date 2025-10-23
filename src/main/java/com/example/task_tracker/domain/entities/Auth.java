@@ -3,11 +3,13 @@ package com.example.task_tracker.domain.entities;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +26,9 @@ public class Auth {
     @Column(name = "password", nullable = false)
     private String passWord;
 
+    @OneToMany(mappedBy = "auth", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    private List<TaskList> taskLists;
+
     @Column(name = "role", nullable = false)
     private List<String> role;
 
@@ -39,6 +44,7 @@ public class Auth {
         return userName;
     }
 
+    
     public void setUserName(String userName) {
         this.userName = userName;
     }

@@ -17,10 +17,15 @@ import com.example.task_tracker.domain.dto.TaskListDto;
 import com.example.task_tracker.domain.entities.TaskList;
 import com.example.task_tracker.mappers.TaskListMapper;
 import com.example.task_tracker.services.TaskListService;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping(path = "/task-lists")
+@SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasRole('USER')")
 public class TaskListController {
 
     private final TaskListService taskListService;
@@ -31,7 +36,6 @@ public class TaskListController {
         this.taskListMapper = taskListMapper;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public List<TaskListDto> listTaskLists() {
         return taskListService.listTaskLists().stream().map(taskListMapper::toDto).toList();
@@ -56,6 +60,7 @@ public class TaskListController {
         return taskListMapper.toDto(updatedTaskList);
     }
 
+    
     @DeleteMapping(path = "/{task_list_id}")
     public void deleteTaskList(@PathVariable("task_list_id") UUID taskListId) {
         taskListService.deleteTaskList(taskListId);

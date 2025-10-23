@@ -7,9 +7,12 @@ import java.util.UUID;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -29,6 +32,10 @@ public class TaskList {
 
     @OneToMany(mappedBy = "taskList", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
     private List<Task> tasks;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_id")
+    private Auth auth;
 
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
@@ -83,8 +90,6 @@ public class TaskList {
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
-
-    
 
     public TaskList() {
     }
@@ -159,7 +164,5 @@ public class TaskList {
         return "TaskList [id=" + id + ", title=" + title + ", description=" + description + ", tasks=" + tasks
                 + ", created=" + created + ", updated=" + updated + "]";
     }
-
-    
 
 }
